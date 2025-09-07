@@ -6,5 +6,5 @@ test('getHome should return correct message', () => {
 
   helloWorldController.getHome(req, res)
 
-  expect(res.send).toHaveBeenCalledWith('Hello World from Controller!')
+  expect(res.send).toHaveBeenCalledWith('Hello World from Controller and Nik!')
 })
