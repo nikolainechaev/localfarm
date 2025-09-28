@@ -9,7 +9,7 @@ test('getHome should return correct message', () => {
   expect(res.send).toHaveBeenCalledWith('Hello World from Controller and Nik!')
 })
 
-test('nameGreeting should return correct reponse with name starting with capital N', () => {
+test('nameGreeting should return correct response with name starting with capital N', () => {
   const req = { params: { name: 'nik' } }
   const res = { send: jest.fn() }
 
@@ -18,7 +18,7 @@ test('nameGreeting should return correct reponse with name starting with capital
   expect(res.send).toHaveBeenCalledWith('Hello Nik!')
 })
 
-test('nameGreeting should return correct reponse when name has only one character', () => {
+test('nameGreeting should return correct response when name has only one character', () => {
   const req = { params: { name: 'n' } }
   const res = {
     send: jest.fn(),
@@ -31,7 +31,7 @@ test('nameGreeting should return correct reponse when name has only one characte
   expect(res.send).toHaveBeenCalledWith('User name is not valid')
 })
 
-test('nameGreeting should return correct reponse when no parameter is provided', () => {
+test('nameGreeting should return correct response when no parameter is provided', () => {
   const req = { params: { name: '' } }
   const res = {
     send: jest.fn(),

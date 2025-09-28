@@ -5,7 +5,7 @@ exports.getHome = (req, res) => {
 exports.nameGreeting = (request, response) => {
   try {
     const userName = request.params.name
-    if (userName.length == 1) {
+    if (userName.length === 1) {
       throw new Error('Name is too short')
     }
     if (userName) {
