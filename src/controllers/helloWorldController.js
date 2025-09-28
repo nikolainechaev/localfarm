@@ -5,10 +5,10 @@ exports.getHome = (req, res) => {
 exports.nameGreeting = (request, response) => {
   try {
     const userName = request.params.name
-    if (userName.length === 1) {
-      throw new Error('Name is too short')
-    }
     if (userName) {
+      if (userName.length === 1) {
+        throw new Error('Name is too short')
+      }
       const firstLetter = userName.charAt(0).toLocaleUpperCase()
       const restOfName = userName.slice(1)
       response.send(`Hello ${firstLetter}${restOfName}!`)
