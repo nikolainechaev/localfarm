@@ -1,7 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const { getHome } = require('../controllers/helloWorldController')
+const { getHome, nameGreeting } = require('../controllers/helloWorldController')
 
-router.get('/', getHome)
+router
+  .get('/', getHome)
+
+  .get('/user', nameGreeting)
 
 module.exports = router
