@@ -3,20 +3,55 @@ exports.getHome = (req, res) => {
 }
 
 exports.nameGreeting = (request, response) => {
+  const timeStamp = new Date().toISOString()
   try {
-    const userName = request.params.name
+    const userName = (request.query.name || '').trim()
     if (userName) {
       if (userName.length === 1) {
-        throw new Error('Name is too short')
+        return response.json({
+          message:
+            'Name is too short, please provide name with at least two characters.',
+          timestamp: timeStamp,
+          requestedName: userName,
+          success: false,
+          status: 400,
+        })
+      }
+      if (!/^[a-zA-Z- ]+$/.test(userName)) {
+        return response.json({
+          message: 'Name contains invalid characters, please check your name.',
+          timestamp: timeStamp,
+          requestedName: userName,
+          success: false,
+          status: 400,
+        })
       }
       const firstLetter = userName.charAt(0).toLocaleUpperCase()
       const restOfName = userName.slice(1)
-      response.send(`Hello ${firstLetter}${restOfName}!`)
+
+      return response.json({
+        message: `Hello ${firstLetter}${restOfName}!`,
+        timestamp: timeStamp,
+        requestedName: userName,
+        success: true,
+        status: 200,
+      })
     } else {
-      response.send('Hello unknown user :)')
+      return response.json({
+        message: 'Hello unknown user :)',
+        timestamp: timeStamp,
+        requestedName: "User name hasn't been provided, please provide a name.",
+        success: false,
+        status: 400,
+      })
     }
   } catch (error) {
-    response.status(500).send('User name is not valid')
+    return response.json({
+      message: 'User name is not valid',
+      timestamp: timeStamp,
+      success: false,
+      status: 500,
+    })
     console.error(error)
   }
 }
