@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.76.1",
     "express": "^5.1.0"
   },
   "devDependencies": {
