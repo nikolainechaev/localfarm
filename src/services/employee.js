@@ -35,7 +35,7 @@ class EmployeeService implements IEmployeeService {
 		return []
 		}
 		return data.map(emp => new Employee(
-			emp.id
+			emp.id,
 			emp.first_name,
 			emp.last_name,
 			new Date(emp.hire_date),
@@ -56,7 +56,7 @@ class EmployeeService implements IEmployeeService {
 		return null
 		}
 		return new Employee (
-			data.id
+			data.id,
 			data.first_name,
 			data.last_name,
 			new Date(data.hire_date),
@@ -78,7 +78,7 @@ class EmployeeService implements IEmployeeService {
 		return null
 		}
 		return new Employee(
-			data.id
+			data.id,
 			data.first_name,
 			data.last_name,
 			new Date(data.hire_date),

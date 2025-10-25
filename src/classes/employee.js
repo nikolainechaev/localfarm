@@ -6,10 +6,10 @@ class Employee extends Person {
 
   constructor(
     id: number,
-    firstName: string;
-    lastName: string;
-    hire_date: Date;
-    salary: number;
+    firstName: string,
+    lastName: string,
+    hire_date: Date,
+    salary: number
   ) {
     super(firstName, lastName);
     this.id = id;
@@ -29,4 +29,4 @@ class Employee extends Person {
     };
   }
 }
-export default Employee
+export default Employee;
