@@ -29,4 +29,4 @@ class Employee extends Person {
     };
   }
 }
-export default Employee;
+export { Employee };

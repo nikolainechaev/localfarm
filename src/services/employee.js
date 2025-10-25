@@ -16,31 +16,32 @@ class EmployeeService implements IEmployeeService {
       return null
     }
     return new Employee(
-		data.id,
-		data.first_name,
-		data.last_name,
-		new Date(data.hire_date),
-		data.salary,
-	)
+      data.id,
+      data.first_name,
+      data.last_name,
+      new Date(data.hire_date),
+      data.salary
+    )
   }
 
   // Get all employees
   async getAll(): Promise<Employee[]> {
-    const { data, error } = await supabase
-      .from('employees')
-      .select('*')
+    const { data, error } = await supabase.from('employees').select('*')
 
     if (error) {
       console.error('Error fetching employees:', error)
       return []
     }
-    return data.map(emp => new Employee(
-      emp.id,
-      emp.first_name,
-      emp.last_name,
-      new Date(emp.hire_date),
-      emp.salary,
-    ));
+    return data.map(
+      (emp) =>
+        new Employee(
+          emp.id,
+          emp.first_name,
+          emp.last_name,
+          new Date(emp.hire_date),
+          emp.salary
+        )
+    )
   }
 
   // Get employee by ID
@@ -55,12 +56,12 @@ class EmployeeService implements IEmployeeService {
       console.error('Error fetching employee:', error)
       return null
     }
-    return new Employee (
+    return new Employee(
       data.id,
       data.first_name,
       data.last_name,
       new Date(data.hire_date),
-      data.salary,
+      data.salary
     )
   }
 
@@ -82,7 +83,7 @@ class EmployeeService implements IEmployeeService {
       data.first_name,
       data.last_name,
       new Date(data.hire_date),
-      data.salary,
+      data.salary
     )
   }
 
