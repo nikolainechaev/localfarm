@@ -55,18 +55,21 @@ class EmployeeService implements IEmployeeService {
       console.error('Error fetching employee:', error)
       return null
     }
-    return data
+    return new Employee (
+		data.first_name,
+		data.last_name,
+		new Date(data.hire_date),
+		data.salary,
+		data.id
+	)
   },
 
   // Update employee
-  async update(
-    id: number,
-    updates: Partial<Employee>
-  ): Promise<Employee | null> {
+  async update(employee: Employee): Promise<Employee | null> {
     const { data, error } = await supabase
       .from('employees')
-      .update(updates)
-      .eq('id', id)
+      .update(employee.toJSON())
+      .eq('id', employee.getId())
       .select()
       .single()
 

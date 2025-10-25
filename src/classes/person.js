@@ -1,6 +1,6 @@
 class Person {
-	protected firstName: String;
-	protected lastName:
+	protected firstName: string;
+	protected lastName: string
 
 	constructor(firstName: string, lastName: string) {
 		this.firstName = firstName;
