@@ -1,7 +1,7 @@
 import Person from './person';
 class Employee extends Person {
   private id: number;
-  private hire_date: string;
+  private hire_date: Date;
   private salary: number;
 
   constructor(

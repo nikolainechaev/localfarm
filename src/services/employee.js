@@ -4,7 +4,7 @@ import { Employee } from '../classes/employee.js'
 
 class EmployeeService implements IEmployeeService {
   // Create new employee
-  async create(employee: Employee): Promise<Employe | null> {
+  async create(employee: Employee): Promise<Employee | null> {
     const { data, error } = await supabase
       .from('employees')
       .insert([employee.toJSON()])
