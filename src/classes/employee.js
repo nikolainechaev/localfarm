@@ -1,6 +1,6 @@
 import Person from './person';
 class Employee extends Person {
-  private id: Number;
+  private id: number;
   private hire_date: string;
   private salary: number;
 
@@ -8,26 +8,23 @@ class Employee extends Person {
     id: number,
     firstName: string;
     lastName: string;
-    hireDate: Date;
+    hire_date: Date;
     salary: number;
   ) {
     super(firstName, lastName);
     this.id = id;
-    this.hire_date = hireDate;
+    this.hire_date = hire_date;
     this.salary = salary;
   }
   public getId(): number {
     return this.id;
-  }
-  public getFullName(): string {
-    return `${this.firstName} ${this.lastName}`
   }
   public toJSON(): object {
     return {
       id: this.id,
       first_name: this.firstName,
       last_name: this.lastName,
-      hire_date: this.hireDate,
+      hire_date: this.hire_date,
       salary: this.salary
     };
   }
