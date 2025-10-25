@@ -1,12 +1,13 @@
 import { supabase } from '../lib/supabase'
-import { Employee } from '../objects/employee.js'
+import IEmployeeService from '../interfaces/IEmployeeService.js'
+import { Employee } from '../classes/employee.js'
 
-export const employeeService = {
+class EmployeeService implements IEmployeeService {
   // Create new employee
-  async create(employee: Omit<Employee, 'id'>): Promise<Employee | null> {
+  async create(employee: Employee>): Promise<Employee> {
     const { data, error } = await supabase
       .from('employees')
-      .insert([employee])
+      .insert([employee.toJSON()])
       .select()
       .single()
 
@@ -14,7 +15,13 @@ export const employeeService = {
       console.error('Error creating employee:', error)
       return null
     }
-    return data
+    return new Employee(
+		data.first_name,
+		data.last_name,
+		data.hire_date,
+		data.salary,
+		data.id
+	)
   },
 
   // Get all employees
@@ -22,14 +29,19 @@ export const employeeService = {
     const { data, error } = await supabase
       .from('employees')
       .select('*')
-      .order('created_at', { ascending: false })
 
     if (error) {
       console.error('Error fetching employees:', error)
       return []
     }
-    return data || []
-  },
+	return data.map(emp => new Employee(
+		emp.first_name,
+		emp.last_name,
+		new Date(emp.hire_date),
+		emp.salary,
+		emp.id
+	));
+},
 
   // Get employee by ID
   async getById(id: number): Promise<Employee | null> {
@@ -62,7 +74,14 @@ export const employeeService = {
       console.error('Error updating employee:', error)
       return null
     }
-    return data
+    return new Employee(
+		data.first_name,
+		data.last_name,
+		data.hire_date,
+		data.salary,
+		data.id
+	)
+	
   },
 
   // Delete employee
