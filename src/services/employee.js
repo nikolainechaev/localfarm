@@ -1,10 +1,10 @@
-import { supabase } from '../lib/supabase'
+import { supabase } from '../../db/client.js'
 import IEmployeeService from '../interfaces/IEmployeeService.js'
 import { Employee } from '../classes/employee.js'
 
 class EmployeeService implements IEmployeeService {
   // Create new employee
-  async create(employee: Employee): Promise<Employee> {
+  async create(employee: Employee): Promise<Employe | null> {
     const { data, error } = await supabase
       .from('employees')
       .insert([employee.toJSON()])
@@ -16,11 +16,11 @@ class EmployeeService implements IEmployeeService {
       return null
     }
     return new Employee(
+		data.id,
 		data.first_name,
 		data.last_name,
-		data.hire_date,
+		new Date(data.hire_date),
 		data.salary,
-		data.id
 	)
   }
 
@@ -35,11 +35,11 @@ class EmployeeService implements IEmployeeService {
 		return []
 		}
 		return data.map(emp => new Employee(
+			emp.id
 			emp.first_name,
 			emp.last_name,
 			new Date(emp.hire_date),
 			emp.salary,
-			emp.id
 		));
 	}
 
@@ -56,11 +56,11 @@ class EmployeeService implements IEmployeeService {
 		return null
 		}
 		return new Employee (
+			data.id
 			data.first_name,
 			data.last_name,
 			new Date(data.hire_date),
 			data.salary,
-			data.id
 		)
   }
 
@@ -78,11 +78,11 @@ class EmployeeService implements IEmployeeService {
 		return null
 		}
 		return new Employee(
+			data.id
 			data.first_name,
 			data.last_name,
-			data.hire_date,
+			new Date(data.hire_date),
 			data.salary,
-			data.id
 		)
   	}
 

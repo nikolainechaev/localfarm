@@ -1,4 +1,4 @@
-import Employee from '../classes/employee'
+import Employee from '../classes/employee.js'
 
 interface IEmployeeService {
   create(employee: Employee): Promise<Employee>;
