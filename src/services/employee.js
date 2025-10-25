@@ -24,76 +24,76 @@ class EmployeeService implements IEmployeeService {
 	)
   }
 
-  	// Get all employees
-  	async getAll(): Promise<Employee[]> {
-		const { data, error } = await supabase
-		.from('employees')
-		.select('*')
+  // Get all employees
+  async getAll(): Promise<Employee[]> {
+    const { data, error } = await supabase
+      .from('employees')
+      .select('*')
 
-		if (error) {
-		console.error('Error fetching employees:', error)
-		return []
-		}
-		return data.map(emp => new Employee(
-			emp.id,
-			emp.first_name,
-			emp.last_name,
-			new Date(emp.hire_date),
-			emp.salary,
-		));
-	}
-
-  // Get employee by ID
-  	async getById(id: number): Promise<Employee | null> {
-		const { data, error } = await supabase
-		.from('employees')
-		.select('*')
-		.eq('id', id)
-		.single()
-
-		if (error) {
-		console.error('Error fetching employee:', error)
-		return null
-		}
-		return new Employee (
-			data.id,
-			data.first_name,
-			data.last_name,
-			new Date(data.hire_date),
-			data.salary,
-		)
+    if (error) {
+      console.error('Error fetching employees:', error)
+      return []
+    }
+    return data.map(emp => new Employee(
+      emp.id,
+      emp.first_name,
+      emp.last_name,
+      new Date(emp.hire_date),
+      emp.salary,
+    ));
   }
 
-  	// Update employee
- 	async update(employee: Employee): Promise<Employee | null> {
-		const { data, error } = await supabase
-		.from('employees')
-		.update(employee.toJSON())
-		.eq('id', employee.getId())
-		.select()
-		.single()
+  // Get employee by ID
+  async getById(id: number): Promise<Employee | null> {
+    const { data, error } = await supabase
+      .from('employees')
+      .select('*')
+      .eq('id', id)
+      .single()
 
-		if (error) {
-		console.error('Error updating employee:', error)
-		return null
-		}
-		return new Employee(
-			data.id,
-			data.first_name,
-			data.last_name,
-			new Date(data.hire_date),
-			data.salary,
-		)
-  	}
+    if (error) {
+      console.error('Error fetching employee:', error)
+      return null
+    }
+    return new Employee (
+      data.id,
+      data.first_name,
+      data.last_name,
+      new Date(data.hire_date),
+      data.salary,
+    )
+  }
 
-  	// Delete employee
-  	async delete(id: number): Promise<boolean> {
-		const { error } = await supabase.from('employees').delete().eq('id', id)
+  // Update employee
+  async update(employee: Employee): Promise<Employee | null> {
+    const { data, error } = await supabase
+      .from('employees')
+      .update(employee.toJSON())
+      .eq('id', employee.getId())
+      .select()
+      .single()
 
-		if (error) {
-		console.error('Error deleting employee:', error)
-		return false
-		}
-		return true
-	},
+    if (error) {
+      console.error('Error updating employee:', error)
+      return null
+    }
+    return new Employee(
+      data.id,
+      data.first_name,
+      data.last_name,
+      new Date(data.hire_date),
+      data.salary,
+    )
+  }
+
+  // Delete employee
+  async delete(id: number): Promise<boolean> {
+    const { error } = await supabase.from('employees').delete().eq('id', id)
+
+    if (error) {
+      console.error('Error deleting employee:', error)
+      return false
+    }
+    return true
+  }
 }
