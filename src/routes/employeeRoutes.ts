@@ -40,7 +40,18 @@ router.post('/', async (req, res) => {
       new Date(hire_date),
       salary
     )
+    if (
+      typeof first_name !== 'string' || first_name.trim() === '' ||
+      typeof last_name !== 'string' || last_name.trim() === '' ||
+      typeof hire_date !== 'string' || isNaN(Date.parse(hire_date)) ||
+      (typeof salary !== 'number' && typeof salary !== 'string') || isNaN(Number(salary))
+    ) {
+      return res.status(400).json({ error: 'Invalid or missing required fields: first_name, last_name, hire_date, salary' });
+    }
     const created = await employeeService.create(employee)
+    if (!created) {
+      return res.status(500).json({ error: "Can't create employee" })
+    }
     res.status(201).json(created)
   } catch (error) {
     res.status(500).json({ error: "Can't create employee" })
@@ -59,6 +70,14 @@ router.put('/:uuid', async (req, res) => {
       salary,
       uuid
     )
+    if (
+      typeof first_name !== 'string' || first_name.trim() === '' ||
+      typeof last_name !== 'string' || last_name.trim() === '' ||
+      typeof hire_date !== 'string' || isNaN(Date.parse(hire_date)) ||
+      (typeof salary !== 'number' && typeof salary !== 'string') || isNaN(Number(salary))
+    ) {
+      return res.status(400).json({ error: 'Invalid or missing required fields: first_name, last_name, hire_date, salary' });
+    }
     const updated = await employeeService.update(
       employee
     )

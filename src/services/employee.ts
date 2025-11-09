@@ -1,8 +1,18 @@
 import { supabase } from '../../db/client.js';
 import type { IEmployeeService } from '../interfaces/IEmployeeService.js';
 import { Employee } from '../classes/employee.js';
+import { IEmployeeDTO } from '../interfaces/IEmployeeDTO.js';
 
 export class EmployeeService implements IEmployeeService {
+    private mapToEmployee(data: IEmployeeDTO): Employee {
+    return new Employee(
+      data.first_name,
+      data.last_name, 
+      new Date(data.hire_date),
+      data.salary,
+      data.uuid
+    );
+  }
   // Create new employee
   async create(employee: Employee): Promise<Employee | null> {
     const { data, error } = await supabase
@@ -15,13 +25,7 @@ export class EmployeeService implements IEmployeeService {
       console.error('Error creating employee:', error)
       return null
     }
-    return new Employee(
-      data.first_name,
-      data.last_name,
-      new Date(data.hire_date),
-      data.salary,
-      data.uuid
-    )
+    return this.mapToEmployee(data)
   }
 
   // Get all employees
@@ -32,16 +36,7 @@ export class EmployeeService implements IEmployeeService {
       console.error('Error fetching employees:', error)
       return []
     }
-    return data.map(
-      (emp: any) =>
-        new Employee(
-          emp.first_name,
-          emp.last_name,
-          new Date(emp.hire_date),
-          emp.salary,
-          emp.uuid,
-        )
-    )
+    return data.map(emp => this.mapToEmployee(emp))
   }
 
   // Get employee by ID
@@ -56,13 +51,7 @@ export class EmployeeService implements IEmployeeService {
       console.error('Error fetching employee:', error)
       return null
     }
-    return new Employee(
-      data.first_name,
-      data.last_name,
-      new Date(data.hire_date),
-      data.salary,
-      data.uuid
-    )
+    return this.mapToEmployee(data)
   }
 
   // Update employee
@@ -84,13 +73,7 @@ export class EmployeeService implements IEmployeeService {
       console.error('Error updating employee:', error)
       return null
     }
-    return new Employee(
-      data.first_name,
-      data.last_name,
-      new Date(data.hire_date),
-      data.salary,
-      data.uuid
-    )
+    return this.mapToEmployee(data)
   }
 
   // Delete employee

@@ -28,6 +28,6 @@ class Employee extends Person {
     };
     if (this.uuid) base.uuid = this.uuid;
       return base;
-    }
+  }
 }
 export { Employee };
