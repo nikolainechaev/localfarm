@@ -1,8 +1,8 @@
-import { supabase } from '../../db/client.js'
-import IEmployeeService from '../interfaces/IEmployeeService.js'
-import { Employee } from '../classes/employee.js'
+import { supabase } from '../../db/client.js';
+import type { IEmployeeService } from '../interfaces/IEmployeeService.js';
+import { Employee } from '../classes/employee.js';
 
-class EmployeeService implements IEmployeeService {
+export class EmployeeService implements IEmployeeService {
   // Create new employee
   async create(employee: Employee): Promise<Employee | null> {
     const { data, error } = await supabase
@@ -16,11 +16,11 @@ class EmployeeService implements IEmployeeService {
       return null
     }
     return new Employee(
-      data.id,
       data.first_name,
       data.last_name,
       new Date(data.hire_date),
-      data.salary
+      data.salary,
+      data.uuid
     )
   }
 
@@ -33,23 +33,23 @@ class EmployeeService implements IEmployeeService {
       return []
     }
     return data.map(
-      (emp) =>
+      (emp: any) =>
         new Employee(
-          emp.id,
           emp.first_name,
           emp.last_name,
           new Date(emp.hire_date),
-          emp.salary
+          emp.salary,
+          emp.uuid,
         )
     )
   }
 
   // Get employee by ID
-  async getById(id: number): Promise<Employee | null> {
+  async getById(uuid: string): Promise<Employee | null> {
     const { data, error } = await supabase
       .from('employees')
       .select('*')
-      .eq('id', id)
+      .eq('uuid', uuid)
       .single()
 
     if (error) {
@@ -57,20 +57,26 @@ class EmployeeService implements IEmployeeService {
       return null
     }
     return new Employee(
-      data.id,
       data.first_name,
       data.last_name,
       new Date(data.hire_date),
-      data.salary
+      data.salary,
+      data.uuid
     )
   }
 
   // Update employee
   async update(employee: Employee): Promise<Employee | null> {
+    const uuid = employee.getUuid();
+    if (!uuid) {
+      console.error('Missing uuid on employee for update');
+      return null;
+    }
+  
     const { data, error } = await supabase
       .from('employees')
       .update(employee.toJSON())
-      .eq('id', employee.getId())
+      .eq('uuid', uuid)
       .select()
       .single()
 
@@ -79,17 +85,17 @@ class EmployeeService implements IEmployeeService {
       return null
     }
     return new Employee(
-      data.id,
       data.first_name,
       data.last_name,
       new Date(data.hire_date),
-      data.salary
+      data.salary,
+      data.uuid
     )
   }
 
   // Delete employee
-  async delete(id: number): Promise<boolean> {
-    const { error } = await supabase.from('employees').delete().eq('id', id)
+  async delete(uuid: string): Promise<boolean> {
+    const { error } = await supabase.from('employees').delete().eq('uuid', uuid)
 
     if (error) {
       console.error('Error deleting employee:', error)
@@ -98,3 +104,4 @@ class EmployeeService implements IEmployeeService {
     return true
   }
 }
+

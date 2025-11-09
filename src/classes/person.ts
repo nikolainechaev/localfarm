@@ -1,4 +1,4 @@
-class Person {
+export class Person {
 	protected firstName: string;
 	protected lastName: string;
 
@@ -10,4 +10,3 @@ class Person {
         return `${this.firstName} ${this.lastName}`;
     }
 }
-export default Person;

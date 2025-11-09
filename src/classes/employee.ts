@@ -1,32 +1,33 @@
-import Person from './person';
+import { Person } from './person.js';
 class Employee extends Person {
-  private id: number;
+  private uuid?: string;
   private hire_date: Date;
   private salary: number;
 
   constructor(
-    id: number,
     firstName: string,
     lastName: string,
     hire_date: Date,
-    salary: number
+    salary: number,
+    uuid?: string,
   ) {
     super(firstName, lastName);
-    this.id = id;
+    this.uuid = uuid;
     this.hire_date = hire_date;
     this.salary = salary;
   }
-  public getId(): number {
-    return this.id;
+  public getUuid(): string | undefined {
+    return this.uuid;
   }
   public toJSON(): object {
-    return {
-      id: this.id,
+    const base: any = {
       first_name: this.firstName,
       last_name: this.lastName,
       hire_date: this.hire_date,
       salary: this.salary
     };
-  }
+    if (this.uuid) base.uuid = this.uuid;
+      return base;
+    }
 }
 export { Employee };
